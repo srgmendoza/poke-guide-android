@@ -63,5 +63,6 @@ dependencies {
     implementation project(':core:di')
     implementation project(':core:navigation')
 
-    implementation project(':poke-features')
+    implementation project(':poke-theme')
+    //implementation project(':poke-features')
 }
