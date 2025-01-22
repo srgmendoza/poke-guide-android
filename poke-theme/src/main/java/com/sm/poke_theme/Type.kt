@@ -1,4 +1,4 @@
-package com.sm.pokeguide.ui.theme
+package com.sm.poke_theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
