@@ -55,8 +55,13 @@ dependencies {
     debugImplementation libs.androidx.ui.test.manifest
 
     //Koin DI
-    implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.koin.core)
+    implementation project.dependencies.platform(libs.koin.bom)
+    implementation libs.koin.core
+    implementation libs.koin.android
 
+    //Modules
+    implementation project(':core:di')
+    implementation project(':core:navigation')
 
+    implementation project(':poke-features')
 }
