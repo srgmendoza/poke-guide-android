@@ -43,6 +43,7 @@ dependencies {
 
     implementation libs.bundles.di
     implementation libs.bundles.networking
+    implementation libs.bundles.paging
 
     implementation project(':core:network')
     implementation project(':poke-domain:models')

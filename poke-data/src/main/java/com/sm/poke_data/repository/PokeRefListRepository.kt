@@ -4,16 +4,27 @@ import com.sm.poke_data.api.PokeApi
 import com.sm.poke_data.dto.pokeReferences.PokeReferenceDTO
 import com.sm.poke_domain.mapper.PokeMapperBase
 import com.sm.poke_domain.models.PokeReferenceDomainModel
-import com.sm.poke_domain.models.ResultDomainModel
+import com.sm.poke_domain.models.PokeReferenceInfoDomainModel
 
 interface PokeRefListRepository {
-    suspend fun fetchPokemonList(): Result<PokeReferenceDomainModel>
+    suspend fun fetchPokemonList(offset: Int): Result<PokeReferenceDomainModel>
 }
 
 internal class PokeRefListRepositoryImpl(private val pokeApi: PokeApi) : PokeRefListRepository {
-    override suspend fun fetchPokemonList(): Result<PokeReferenceDomainModel> {
+    companion object {
+        private const val ITEMS_LIMIT = 20
+        private const val FIRST_QUERY_ITEMS_COUNT = 20
+    }
+
+    override suspend fun fetchPokemonList(offset: Int): Result<PokeReferenceDomainModel> {
         try {
-            val content = PokeRefListMap().mapToDomainModel(pokeApi.getPokemonReferenceList())
+            val content = PokeRefListMap()
+                .mapToDomainModel(
+                    pokeApi.getPokemonReferenceList(
+                        offset = offset.takeIf { it > 1 },
+                        limit = ITEMS_LIMIT.takeIf { offset > 1 }
+                    )
+                )
             return Result.success(content)
         } catch (e: Exception) {
             return Result.failure(e)
@@ -27,8 +38,8 @@ internal class PokeRefListMap : PokeMapperBase<PokeReferenceDTO, PokeReferenceDo
             count = dto.count,
             next = dto.next,
             previous = dto.previous,
-            results = dto.results.map {
-                ResultDomainModel(
+            refs = dto.results.map {
+                PokeReferenceInfoDomainModel(
                     name = it.name,
                     url = it.url
                 )

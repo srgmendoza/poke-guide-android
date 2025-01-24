@@ -4,6 +4,7 @@ import com.sm.poke_data.dto.pokeList.PokeDataDTO
 import com.sm.poke_data.dto.pokeReferences.PokeReferenceDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PokeApi {
     companion object {
@@ -15,7 +16,10 @@ interface PokeApi {
     }
 
     @GET(POKE_LIST_ENDPOINT)
-    suspend fun getPokemonReferenceList(): PokeReferenceDTO
+    suspend fun getPokemonReferenceList(
+        @Query("offset") offset: Int? = null,
+        @Query("itemsPerPage") limit: Int? = null
+    ): PokeReferenceDTO
 
     @GET(POKE_DETAIL_ENDPOINT)
     suspend fun getPokemonDetail(

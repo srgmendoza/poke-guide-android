@@ -39,6 +39,7 @@ dependencies {
     androidTestImplementation libs.androidx.espresso.core
 
     implementation libs.bundles.di
+    implementation libs.bundles.paging
 
     implementation project(':poke-domain:models')
     implementation project(':poke-data')

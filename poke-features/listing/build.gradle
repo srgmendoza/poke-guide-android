@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.bundles.di) // Koin for Dependency Injection
     implementation(libs.bundles.navigation)
     implementation(libs.bundles.image)
+    implementation(libs.bundles.paging)
 
     implementation project(':core:navigation')
     implementation project(':core:ui')

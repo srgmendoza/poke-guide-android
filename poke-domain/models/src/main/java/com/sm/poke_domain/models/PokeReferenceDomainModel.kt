@@ -4,10 +4,10 @@ data class PokeReferenceDomainModel(
     val count: Int,
     val next: String,
     val previous: String?,
-    val results: List<ResultDomainModel>
+    val refs: List<PokeReferenceInfoDomainModel>
 )
 
-data class ResultDomainModel(
+data class PokeReferenceInfoDomainModel(
     val name: String,
     val url: String
 )
