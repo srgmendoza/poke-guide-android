@@ -6,18 +6,22 @@ import com.sm.poke_domain.mapper.PokeMapperBase
 import com.sm.poke_domain.models.PokeReferenceDomainModel
 import com.sm.poke_domain.models.ResultDomainModel
 
-interface PokeNetworkRepository {
-    suspend fun fetchPokemonList(): PokeReferenceDomainModel
+interface PokeRefListRepository {
+    suspend fun fetchPokemonList(): Result<PokeReferenceDomainModel>
 }
 
-internal class PokeNetworkRepositoryImpl(private val pokeApi: PokeApi) : PokeNetworkRepository {
-    override suspend fun fetchPokemonList(): PokeReferenceDomainModel {
-
-        return PokeListMap().mapToDomainModel(pokeApi.getPokemonList())
+internal class PokeRefListRepositoryImpl(private val pokeApi: PokeApi) : PokeRefListRepository {
+    override suspend fun fetchPokemonList(): Result<PokeReferenceDomainModel> {
+        try {
+            val content = PokeRefListMap().mapToDomainModel(pokeApi.getPokemonReferenceList())
+            return Result.success(content)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
     }
 }
 
-internal class PokeListMap : PokeMapperBase<PokeReferenceDTO, PokeReferenceDomainModel>() {
+internal class PokeRefListMap : PokeMapperBase<PokeReferenceDTO, PokeReferenceDomainModel>() {
     override fun mapToDomainModel(dto: PokeReferenceDTO): PokeReferenceDomainModel {
         return PokeReferenceDomainModel(
             count = dto.count,
