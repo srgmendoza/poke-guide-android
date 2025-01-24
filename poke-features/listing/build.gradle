@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.sm.poke_features.listing'
-    compileSdk 35
+    compileSdk 34
 
     defaultConfig {
         minSdk 24
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -27,6 +27,12 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.14"
+    }
+    buildFeatures {
+        compose true
+    }
 }
 
 dependencies {
@@ -37,4 +43,11 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+
+    implementation(libs.bundles.compose) // Compose libraries
+    implementation(libs.bundles.di) // Koin for Dependency Injection
+    implementation(libs.bundles.navigation)
+
+    implementation project(':core:navigation')
+
 }
