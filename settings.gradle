@@ -21,12 +21,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "PokeGuide"
 include ':app'
-include ':core'
 include ':core:network'
 include ':core:navigation'
-include ':poke-data'
-include ':poke-features'
-include ':core:di'
-include ':poke-domain'
 include ':core:ui'
+include ':core:di'
+include ':poke-data'
 include ':poke-theme'
+include ':poke-domain'
+include ':poke-features:listing'

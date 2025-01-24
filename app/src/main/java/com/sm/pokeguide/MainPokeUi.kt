@@ -5,18 +5,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.sm.core.navigation.Navigator
 import com.sm.poke_theme.PokeTheme
-import com.sm.pokeguide.nav.MainNavigationUi
+import com.sm.pokeguide.nav.NavigationComponent
+import org.koin.androidx.compose.get
 
 @Composable
 fun MainPokeUi() {
     val navController = rememberNavController()
+    val navigator = get<Navigator>()
 
     PokeTheme {
         Scaffold { innerPadding ->
-            MainNavigationUi(
+            NavigationComponent(
+                modifier = Modifier.padding(innerPadding),
                 navController = navController,
-                modifier = Modifier.padding(innerPadding)
+                navigator = navigator
             )
         }
     }
