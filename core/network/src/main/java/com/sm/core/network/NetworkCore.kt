@@ -13,7 +13,7 @@ interface NetworkCore {
 internal class NetworkCoreImpl : NetworkCore {
 
     init {
-        Log.d(this.javaClass.name, "Initialising...")
+        Log.d(this.javaClass.name, "Initialising Network Core...")
     }
 
     override fun <T> getCoreNetwork(

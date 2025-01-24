@@ -49,5 +49,9 @@ dependencies {
     implementation(libs.bundles.navigation)
 
     implementation project(':core:navigation')
+    implementation project(':core:ui')
+
+    implementation project(':poke-domain:use-cases')
+    implementation project(':poke-domain:models')
 
 }

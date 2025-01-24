@@ -55,6 +55,10 @@ dependencies {
     //Modules
     implementation project(':core:di')
     implementation project(':core:navigation')
+    implementation project(':core:network')
+
+    implementation project(':poke-data')
+    implementation project(':poke-domain:use-cases')
 
     implementation project(':poke-theme')
     implementation project(':poke-features:listing')
