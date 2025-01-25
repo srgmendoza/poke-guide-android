@@ -47,7 +47,6 @@ dependencies {
     implementation(libs.bundles.compose) // Compose libraries
     implementation(libs.bundles.networking) // Networking libraries
     implementation(libs.bundles.di) // Koin for Dependency Injection
-    implementation(libs.bundles.image) // Coil for image loading
     implementation(libs.bundles.navigation)
 
     testImplementation(libs.bundles.test) // Testing dependencies
