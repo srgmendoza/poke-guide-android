@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun PokeLoaderView() {
+fun PokeLoaderView(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         LoaderView()

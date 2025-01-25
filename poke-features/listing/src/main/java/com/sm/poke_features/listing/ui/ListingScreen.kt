@@ -1,12 +1,14 @@
 package com.sm.poke_features.listing.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Card
@@ -51,9 +53,6 @@ fun ListingScreen(viewModel: ListingScreenViewModel) {
                 pokemons = viewState.value.form,
                 onClick = { pokemon ->
                     //TODO. Navigate to detail
-                },
-                onError = {
-                    //TODO. Raise error within ViewModel
                 }
             )
         }
@@ -63,43 +62,53 @@ fun ListingScreen(viewModel: ListingScreenViewModel) {
 @Composable
 fun ListView(
     pokemons: Flow<PagingData<ListingScreenViewForm>>,
-    onClick: (ListingScreenViewForm) -> Unit,
-    onError: (() -> Unit)
+    onClick: (ListingScreenViewForm) -> Unit
 ) {
     val lazyPagingItems = pokemons.collectAsLazyPagingItems()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(200.dp),
-        state = rememberLazyGridState()
-    ) {
-        items(
-            count = lazyPagingItems.itemCount,
-            key = lazyPagingItems.itemKey(),
-            contentType = lazyPagingItems.itemContentType()
-        ) {
-            val item = lazyPagingItems[it]
-            if (item != null) {
-                ListedItemView(item = item, onClick)
-            }
+    val gridState = rememberLazyGridState()
+
+    when (lazyPagingItems.loadState.refresh) {
+        is LoadState.Loading -> {
+            PokeLoaderView(modifier = Modifier.fillMaxWidth())
         }
 
-        //Error handling
-        lazyPagingItems.apply {
-            val error = when {
-                loadState.refresh is LoadState.Error -> {
-                    Log.e("ListView", "Error refresh")
-                    loadState.refresh as? LoadState.Error
+        is LoadState.Error -> {
+            // item { onErrorItem("Error Refreshing Screen") }
+        }
+
+        else -> {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(150.dp),
+                state = gridState,
+                contentPadding = PaddingValues(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(
+                    count = lazyPagingItems.itemCount,
+                    key = lazyPagingItems.itemKey(),
+                    contentType = lazyPagingItems.itemContentType()
+                ) {
+                    val item = lazyPagingItems[it]
+                    if (item != null) {
+                        ListedItemView(item = item, onClick)
+                    }
                 }
 
-                loadState.append is LoadState.Error -> {
-                    Log.e("ListView", "Error append")
-                    loadState.append as? LoadState.Error
+                // Handle append state
+                when (lazyPagingItems.loadState.append) {
+                    is LoadState.Loading -> {
+                        item(span = { GridItemSpan(maxLineSpan) }) { // Span the full width
+                            PokeLoaderView(modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+
+                    is LoadState.Error -> {
+                        // item { onErrorItem("Error Refreshing Screen") }
+                    }
+
+                    else -> {}
                 }
-
-                else -> null
-            }
-
-            if (error != null) {
-                onError.invoke()
             }
         }
     }
@@ -136,7 +145,6 @@ fun ListedItemView(item: ListingScreenViewForm, onClick: (ListingScreenViewForm)
             )
         }
     }
-
 }
 
 @Preview

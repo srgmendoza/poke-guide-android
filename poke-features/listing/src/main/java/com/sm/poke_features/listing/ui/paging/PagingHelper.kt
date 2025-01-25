@@ -1,6 +1,5 @@
 package com.sm.poke_features.listing.ui.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sm.poke_domain.models.PokemonListItemDomainModel
@@ -11,15 +10,8 @@ class ListingPagingHelper(
 ) :
     PagingSource<Int, PokemonListItemDomainModel>() {
 
-    init {
-        Log.d("ListingPagingHandler", "init")
-    }
-
     override fun getRefreshKey(state: PagingState<Int, PokemonListItemDomainModel>): Int? {
-        return null /*state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-        }*/
+        return null
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonListItemDomainModel> {
