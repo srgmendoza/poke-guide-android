@@ -7,15 +7,21 @@ import androidx.paging.map
 import com.sm.core.ui.commons.BaseViewModel
 import com.sm.core.ui.commons.State
 import com.sm.core.ui.commons.ViewState
+import com.sm.poke_domain.models.PokemonListItemDomainModel
 import com.sm.poke_features.listing.ui.paging.ListingScreenPagingHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
+import kotlin.collections.addAll
+import kotlin.text.clear
 
 class ListingScreenViewModel(
-    private val pagingHandler: ListingScreenPagingHandler
+    private val locale: Locale,
+    private val pagingHandler: ListingScreenPagingHandler,
 ) : BaseViewModel<ListingScreenViewState>() {
 
     override val _viewState: MutableStateFlow<ListingScreenViewState> =
@@ -29,8 +35,8 @@ class ListingScreenViewModel(
                 .map {
                     it.map { poke ->
                         ListingScreenViewForm(
-                            name = poke.name,
-                            imageUrl = poke.imageUrl
+                            pokemonSingleInfo = poke,
+                            locale = locale
                         )
                     }
                 }
@@ -45,10 +51,20 @@ class ListingScreenViewModel(
 }
 
 data class ListingScreenViewForm(
-    val name: String,
-    val imageUrl: String? = null
+    private val locale: Locale? = null,
+    private val pokemonSingleInfo: PokemonListItemDomainModel = PokemonListItemDomainModel()
 ) {
+    val name
+        get() = locale?.let {
+            pokemonSingleInfo.name.replaceFirstChar {
+                if (it.isLowerCase())
+                    it.titlecase(locale)
+                else
+                    it.toString()
+            }
+        } ?: pokemonSingleInfo.name
 
+    val imageUrl get() = pokemonSingleInfo.imageUrl
 }
 
 sealed class ListingScreenViewState(

@@ -25,6 +25,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.sm.core.ui.components.PokeLoaderView
+import com.sm.poke_domain.models.PokemonListItemDomainModel
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -67,7 +68,7 @@ fun ListView(
 ) {
     val lazyPagingItems = pokemons.collectAsLazyPagingItems()
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(100.dp),
+        columns = GridCells.Adaptive(200.dp),
         state = rememberLazyGridState()
     ) {
         items(
@@ -129,7 +130,10 @@ fun ListedItemView(item: ListingScreenViewForm, onClick: (ListingScreenViewForm)
                     .aspectRatio(1f),
                 contentScale = ContentScale.Fit
             )
-            Text(text = item.name)
+            Text(
+                modifier = Modifier.padding(12.dp),
+                text = item.name
+            )
         }
     }
 
@@ -140,6 +144,8 @@ fun ListedItemView(item: ListingScreenViewForm, onClick: (ListingScreenViewForm)
 //preview doesn't accept parameters
 fun ColoredTextPreview() = ListedItemView(getExampleCharacter(), {})
 private fun getExampleCharacter() = ListingScreenViewForm(
-    name = "name",
-    imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+    pokemonSingleInfo = PokemonListItemDomainModel(
+        name = "name",
+        imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+    )
 )
