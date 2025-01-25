@@ -1,6 +1,5 @@
 package com.sm.poke_features.listing.ui
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -8,17 +7,15 @@ import androidx.paging.map
 import com.sm.core.ui.commons.BaseViewModel
 import com.sm.core.ui.commons.State
 import com.sm.core.ui.commons.ViewState
-import com.sm.poke_domain.models.PokemonListItemDomainModel
-import com.sm.poke_domain.use_cases.GetPokeListUseCase
+import com.sm.poke_features.listing.ui.paging.ListingScreenPagingHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.nio.file.Files.copy
 
 class ListingScreenViewModel(
-    private val useCase: GetPokeListUseCase
+    private val pagingHandler: ListingScreenPagingHandler
 ) : BaseViewModel<ListingScreenViewState>() {
 
     override val _viewState: MutableStateFlow<ListingScreenViewState> =
@@ -28,7 +25,7 @@ class ListingScreenViewModel(
         _viewState.value = ListingScreenViewState.Loading
 
         viewModelScope.launch {
-            useCase.execute()
+            pagingHandler.getPagedData()
                 .map {
                     it.map { poke ->
                         ListingScreenViewForm(

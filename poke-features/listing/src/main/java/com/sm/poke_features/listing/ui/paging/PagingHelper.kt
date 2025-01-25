@@ -1,21 +1,15 @@
-package com.sm.poke_domain.paging
+package com.sm.poke_features.listing.ui.paging
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.sm.poke_data.repository.PokeItemListRepository
-import com.sm.poke_data.repository.PokeRefListRepository
 import com.sm.poke_domain.models.PokemonListItemDomainModel
+import com.sm.poke_domain.use_cases.GetPokeListUseCase
 
 class ListingPagingHelper(
-    private val refRepo: PokeRefListRepository,
-    private val detailRepo: PokeItemListRepository,
+    private val useCase: GetPokeListUseCase,
 ) :
     PagingSource<Int, PokemonListItemDomainModel>() {
-
-    companion object {
-        const val OFFSET = 20
-    }
 
     init {
         Log.d("ListingPagingHandler", "init")
@@ -32,22 +26,7 @@ class ListingPagingHelper(
         return try {
             val position = params.key ?: 1
 
-            // First we extract the result and process it within PokeDetails to obtain Images
-            val result =
-                refRepo.fetchPokemonList(offset = position - 1).mapCatching { pokeReferenceDomainModel ->
-                    pokeReferenceDomainModel.refs.map { poke ->
-                        detailRepo.fetchPokeItemByName(poke.name).map { detail ->
-                            PokemonListItemDomainModel(
-                                imageUrl = detail.imageUrl,
-                                soundUrl = detail.soundUrl,
-                                name = detail.name
-                            )
-                        }.getOrThrow()
-                    }
-                }
-
-            // Next return the paged data
-            return result.fold(
+            return useCase.execute(position).fold(
                 onSuccess = {
                     return@fold LoadResult.Page(
                         data = it,
