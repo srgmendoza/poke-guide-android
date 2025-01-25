@@ -40,6 +40,7 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.material
+    implementation libs.androidx.foundation.layout.android
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
@@ -47,7 +48,13 @@ dependencies {
     implementation(libs.bundles.compose) // Compose libraries
     implementation(libs.bundles.di) // Koin for Dependency Injection
     implementation(libs.bundles.navigation)
+    implementation(libs.bundles.image)
+    implementation(libs.bundles.paging)
 
     implementation project(':core:navigation')
+    implementation project(':core:ui')
+
+    implementation project(':poke-domain:use-cases')
+    implementation project(':poke-domain:models')
 
 }

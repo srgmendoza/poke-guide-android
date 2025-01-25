@@ -1,6 +1,7 @@
 package com.sm.core.network
 
 import android.util.Log
+import com.sm.core.network.interceptors.LoggingInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,7 +14,7 @@ interface NetworkCore {
 internal class NetworkCoreImpl : NetworkCore {
 
     init {
-        Log.d(this.javaClass.name, "Initialising...")
+        Log.d(this.javaClass.name, "Initialising Network Core...")
     }
 
     override fun <T> getCoreNetwork(
@@ -32,6 +33,7 @@ internal class NetworkCoreImpl : NetworkCore {
         readTimeout: Long = 30
     ) =
         OkHttpClient.Builder()
+            .addInterceptor(LoggingInterceptor())
             .connectTimeout(connectTimeout, TimeUnit.SECONDS)
             .writeTimeout(writeTimeout, TimeUnit.SECONDS)
             .readTimeout(readTimeout, TimeUnit.SECONDS)

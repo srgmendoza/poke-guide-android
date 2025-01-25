@@ -41,6 +41,9 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
 
+    implementation libs.bundles.di
+    implementation libs.bundles.networking
+
     implementation project(':core:network')
-    implementation project(':poke-domain')
+    implementation project(':poke-domain:models')
 }
