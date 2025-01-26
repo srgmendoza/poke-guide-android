@@ -28,7 +28,11 @@ fun NavGraphBuilder.addDetailFeatureNavGraph(popBackStack: () -> Unit) {
 
                 val name = pokeName.toLowerCase(Locale.ROOT)
 
-                PokemonDetailScreen(name, viewModel)
+                PokemonDetailScreen(
+                    pokeName = name,
+                    onBackRequested = popBackStack,
+                    viewModel = viewModel
+                )
             }
         }
     }

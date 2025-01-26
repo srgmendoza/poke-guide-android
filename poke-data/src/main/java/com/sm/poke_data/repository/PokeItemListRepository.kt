@@ -23,12 +23,15 @@ internal class PokeItemListRepositoryImpl(private val pokeApi: PokeApi) : PokeIt
     }
 }
 
-internal class PokeDetailMapper() :
+internal class PokeDetailMapper :
     PokeMapperBase<PokeDataDTO, PokeDetailDomainModel>() {
     override fun mapToDomainModel(dto: PokeDataDTO): PokeDetailDomainModel {
         return PokeDetailDomainModel(
+            id = dto.id.toString(),
             imageUrl = dto.sprites.other?.officialArtwork?.frontDefault,
             name = dto.name,
+            height = dto.height,
+            weight = dto.weight,
             soundUrl = dto.cries.latest,
             topType = PokeTypeDomainModel(
                 name = dto.types.firstOrNull()?.type?.name,

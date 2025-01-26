@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val pokeDetailFeatModule = module {
     viewModel {
-        PokemonDetailScreenViewModel(get())
+        PokemonDetailScreenViewModel(get(), get())
     }
 }
