@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.sm.core.navigation.NavDestination
 import com.sm.core.ui.components.PokeItemView
 import com.sm.core.ui.components.PokeLoaderView
 import com.sm.poke_features.search.ui.components.SearchBoxView
@@ -48,7 +49,8 @@ fun SearchScreen(initialText: String, viewModel: SearchScreenViewModel) {
         is SearchScreenViewState.Initial -> {
             SearchScreenContent(
                 searchValue = textFieldValue,
-                onSearchName = onSearchAction
+                onSearchName = onSearchAction,
+                onItemClicked = {}
             )
         }
 
@@ -61,6 +63,9 @@ fun SearchScreen(initialText: String, viewModel: SearchScreenViewModel) {
                 onSearchName = onSearchAction,
                 onClearSearch = {
                     viewModel.clearState()
+                },
+                onItemClicked = {
+                    viewModel.goTo(NavDestination.DetailFeature.PokeDetailScreen(it))
                 }
             )
         }
@@ -74,7 +79,8 @@ private fun SearchScreenContent(
     isLoading: Boolean = false,
     isError: Boolean = false,
     onSearchName: (TextFieldValue) -> Unit,
-    onClearSearch: () -> Unit = {}
+    onClearSearch: () -> Unit = {},
+    onItemClicked: (String) -> Unit
 ) {
 
     Column {
@@ -113,7 +119,7 @@ private fun SearchScreenContent(
                                 PokeItemView(
                                     pokeName = it.pokemonSingleInfo?.name ?: "",
                                     pokeImageUrl = it.pokemonSingleInfo?.imageUrl,
-                                    onClick = {}
+                                    onClick = onItemClicked
                                 )
                             }
 
@@ -128,7 +134,7 @@ private fun SearchScreenContent(
                                         PokeItemView(
                                             pokeName = item.name,
                                             pokeImageUrl = item.imageUrl,
-                                            onClick = {}
+                                            onClick = onItemClicked
                                         )
                                     }
                                 }

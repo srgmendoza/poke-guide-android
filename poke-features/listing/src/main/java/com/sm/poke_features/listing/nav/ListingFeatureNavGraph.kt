@@ -11,11 +11,11 @@ import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.addListingFeatureNavGraph(popBackStack: () -> Unit) {
     navigation(
-        startDestination = NavDestination.ListinMainScreen.label,
+        startDestination = NavDestination.ListingMainScreen.label,
         route = NavDestination.ListingFeature.label
     ) {
         composable(
-            route = NavDestination.ListinMainScreen.label
+            route = NavDestination.ListingMainScreen.label
         ) {
             val viewModel: ListingScreenViewModel = koinViewModel<ListingScreenViewModel>()
 

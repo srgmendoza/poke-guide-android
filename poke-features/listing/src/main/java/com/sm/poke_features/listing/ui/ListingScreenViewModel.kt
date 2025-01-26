@@ -22,7 +22,7 @@ class ListingScreenViewModel(
     private val locale: Locale,
     private val pagingHandler: ListingScreenPagingHandler,
     private val navigator: Navigator
-) : BaseViewModel<ListingScreenViewState>() {
+) : BaseViewModel<ListingScreenViewState>(navigator) {
 
     override val _viewState: MutableStateFlow<ListingScreenViewState> =
         MutableStateFlow(ListingScreenViewState.Initial)
@@ -47,11 +47,6 @@ class ListingScreenViewModel(
                     )
                 }
         }
-    }
-
-    override fun goTo(destination: NavDestination) {
-        super.goTo(destination)
-        navigator.navigateTo(destination)
     }
 }
 

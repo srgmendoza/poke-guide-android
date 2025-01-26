@@ -55,7 +55,7 @@ fun ListingScreen(viewModel: ListingScreenViewModel) {
             ListingScreenContent(
                 pagedForm = viewState.value.form,
                 onPokeSelected = { pokemonName ->
-                    //TODO. Navigate to detail
+                    viewModel.goTo(NavDestination.DetailFeature.PokeDetailScreen(pokemonName))
                 },
                 onSearchRequested = {
                     viewModel.goTo(NavDestination.SearchFeature.SearchScreenWithText(it))
