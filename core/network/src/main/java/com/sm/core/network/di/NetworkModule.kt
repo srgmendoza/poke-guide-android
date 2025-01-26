@@ -5,7 +5,7 @@ import com.sm.core.network.NetworkCoreImpl
 import org.koin.dsl.module
 
 val networkCoreModule = module {
-    factory<NetworkCore> {
+    single<NetworkCore> {
         NetworkCoreImpl()
     }
 }
