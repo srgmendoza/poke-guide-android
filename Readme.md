@@ -9,6 +9,8 @@ A simple project to show a list of Pokemons, show a brief detail, and search for
 2. [Tech Stack](#tech-stack)
 4. [Setup & Installation](#setup--installation)
 5. [Architecture](#architecture)
+6. [Future Improvements](#future-improvements)
+7. [Contact](#contact)
 
 ---
 
