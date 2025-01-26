@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.bundles.networking) // Networking libraries
     implementation(libs.bundles.di) // Koin for Dependency Injection
     implementation(libs.bundles.navigation)
+    implementation(libs.splash.screen)
 
     testImplementation(libs.bundles.test) // Testing dependencies
 
@@ -55,10 +56,12 @@ dependencies {
     implementation project(':core:di')
     implementation project(':core:navigation')
     implementation project(':core:network')
+    implementation project(':core:ui')
 
     implementation project(':poke-data')
     implementation project(':poke-domain:use-cases')
 
     implementation project(':poke-theme')
     implementation project(':poke-features:listing')
+    implementation project(':poke-features:search')
 }

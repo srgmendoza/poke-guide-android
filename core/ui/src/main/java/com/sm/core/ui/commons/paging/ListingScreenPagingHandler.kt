@@ -1,4 +1,4 @@
-package com.sm.poke_features.listing.ui.paging
+package com.sm.core.ui.commons.paging
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,7 +11,7 @@ interface ListingScreenPagingHandler {
     fun getPagedData(): Flow<PagingData<PokemonListItemDomainModel>>
 }
 
-class ListingScreenPagingHandlerImpl(private val useCase: GetPokeListUseCase) :
+internal class ListingScreenPagingHandlerImpl(private val useCase: GetPokeListUseCase) :
     ListingScreenPagingHandler {
 
     companion object {

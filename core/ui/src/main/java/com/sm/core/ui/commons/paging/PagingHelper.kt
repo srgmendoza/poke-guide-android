@@ -1,4 +1,4 @@
-package com.sm.poke_features.listing.ui.paging
+package com.sm.core.ui.commons.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
