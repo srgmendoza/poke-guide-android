@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.sm.core.navigation.NavDestination
 import com.sm.core.navigation.Navigator
+import com.sm.poke_features.detail.nav.addDetailFeatureNavGraph
 import com.sm.poke_features.listing.nav.addListingFeatureNavGraph
 import com.sm.poke_features.search.nav.addSearchFeatureNavGraph
 import kotlinx.coroutines.flow.launchIn
@@ -33,5 +34,6 @@ fun NavigationComponent(
     ) {
         addListingFeatureNavGraph { navController.popBackStack() }
         addSearchFeatureNavGraph { navController.popBackStack() }
+        addDetailFeatureNavGraph { navController.popBackStack() }
     }
 }

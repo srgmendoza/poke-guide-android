@@ -64,4 +64,5 @@ dependencies {
     implementation project(':poke-theme')
     implementation project(':poke-features:listing')
     implementation project(':poke-features:search')
+    implementation project(':poke-features:detail')
 }

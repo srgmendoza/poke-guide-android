@@ -4,13 +4,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.sm.core.navigation.NavDestination
 import com.sm.core.navigation.Navigator
 import com.sm.core.ui.commons.BaseViewModel
 import com.sm.core.ui.commons.State
 import com.sm.core.ui.commons.ViewState
-import com.sm.poke_domain.models.PokemonListItemDomainModel
 import com.sm.core.ui.commons.paging.ListingScreenPagingHandler
+import com.sm.poke_domain.models.PokemonListItemDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -22,7 +21,7 @@ class ListingScreenViewModel(
     private val locale: Locale,
     private val pagingHandler: ListingScreenPagingHandler,
     private val navigator: Navigator
-) : BaseViewModel<ListingScreenViewState>() {
+) : BaseViewModel<ListingScreenViewState>(navigator) {
 
     override val _viewState: MutableStateFlow<ListingScreenViewState> =
         MutableStateFlow(ListingScreenViewState.Initial)
@@ -47,11 +46,6 @@ class ListingScreenViewModel(
                     )
                 }
         }
-    }
-
-    override fun goTo(destination: NavDestination) {
-        super.goTo(destination)
-        navigator.navigateTo(destination)
     }
 }
 
