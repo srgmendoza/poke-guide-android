@@ -22,7 +22,7 @@ class LoggingInterceptor : Interceptor {
         Log.d(
             "Interceptor", String.format(
                 "Received response for %s in %.1fms%n%s",
-                response.request.url, (t2 - t1) / 1e6, response.headers
+                response.request.url, (t2 - t1) / 1e6, response.code
             )
         )
 

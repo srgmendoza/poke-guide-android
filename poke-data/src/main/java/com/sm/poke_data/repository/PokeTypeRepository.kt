@@ -26,7 +26,7 @@ internal class PokeTypeMapper : PokeMapperBase<PokeTypeDTO, PokemonListByTypeDom
     override fun mapToDomainModel(dto: PokeTypeDTO): PokemonListByTypeDomainModel {
         return PokemonListByTypeDomainModel(
             name = dto.name,
-            topRelatedPokemons = dto.pokemonRefs.drop(1).take(5).map {
+            topRelatedPokemons = dto.pokemonRefs.drop(1).take(6).map {
                 PokeReferenceInfoDomainModel(
                     name = it.pokemon.name,
                     url = it.pokemon.url

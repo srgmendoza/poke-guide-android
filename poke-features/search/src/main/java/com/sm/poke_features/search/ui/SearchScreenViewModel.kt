@@ -23,8 +23,12 @@ class SearchScreenViewModel(
 
     private var searchJob: Job? = null
 
+    fun clearState() {
+        _viewState.value = SearchScreenViewState.Initial
+    }
+
     fun searchByName(name: String) {
-        if (name.length > 4) {
+        if (name.length > 3) {
             Log.d(className, "Will search for $name")
             cancelJob()
             _viewState.value = SearchScreenViewState.Loading
@@ -41,9 +45,14 @@ class SearchScreenViewModel(
                     },
                     onFailure = {
                         Log.d(className, "Error $it looking for $name")
+                        _viewState.value =
+                            SearchScreenViewState.Error(it.message ?: "Unknown error")
                     }
                 )
             }
+        } else {
+            cancelJob()
+            clearState()
         }
     }
 

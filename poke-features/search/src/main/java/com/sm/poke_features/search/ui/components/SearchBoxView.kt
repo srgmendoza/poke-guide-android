@@ -21,14 +21,16 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchBoxView(
     modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
     onSearch: (String) -> Unit,
+    onClearSearch: () -> Unit = {},
     placeholder: String = "Search",
     leadingIcon: @Composable (() -> Unit)? = {
         Icon(
@@ -37,8 +39,13 @@ fun SearchBoxView(
         )
     },
     trailingIcon: @Composable (() -> Unit)? = {
-        if (value.isNotEmpty()) {
-            IconButton(onClick = { onValueChange("") }) {
+        if (value.text.isNotEmpty()) {
+            IconButton(
+                onClick = {
+                    onValueChange(TextFieldValue())
+                    onClearSearch()
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Clear,
                     contentDescription = "Clear Icon"
@@ -57,7 +64,7 @@ fun SearchBoxView(
             .padding(16.dp)
             .focusRequester(focusRequester),
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { onValueChange(it) },
         placeholder = { Text(text = placeholder) },
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
@@ -68,13 +75,13 @@ fun SearchBoxView(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                onSearch(value)
+                onSearch(value.text)
                 focusManager.clearFocus()
             }
         )
     )
 
-    if(value.isNotEmpty()) {
+    if (value.text.isNotEmpty()) {
         LaunchedEffect(Unit) {
             focusRequester.requestFocus() // Request focus
             keyboardController?.show() // Show the keyboard
