@@ -57,4 +57,5 @@ dependencies {
     implementation project(':poke-domain:use-cases')
     implementation project(':poke-domain:models')
 
+    implementation project(':poke-features:search')
 }

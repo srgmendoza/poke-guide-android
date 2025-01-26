@@ -1,23 +1,21 @@
 package com.sm.poke_features.listing.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -25,9 +23,12 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import coil3.compose.AsyncImage
+import com.sm.core.navigation.NavDestination
+import com.sm.core.ui.components.PokeItemView
 import com.sm.core.ui.components.PokeLoaderView
+import com.sm.core.ui.components.PokeVerticalGridView
 import com.sm.poke_domain.models.PokemonListItemDomainModel
+import com.sm.poke_features.search.ui.components.SearchBoxView
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -49,10 +50,13 @@ fun ListingScreen(viewModel: ListingScreenViewModel) {
         }
 
         else -> {
-            ListView(
-                pokemons = viewState.value.form,
-                onClick = { pokemon ->
+            ListingScreenContent(
+                pagedForm = viewState.value.form,
+                onPokeSelected = { pokemonName ->
                     //TODO. Navigate to detail
+                },
+                onSearchRequested = {
+                    viewModel.goTo(NavDestination.SearchFeature.SearchScreenWithText(it))
                 }
             )
         }
@@ -60,11 +64,34 @@ fun ListingScreen(viewModel: ListingScreenViewModel) {
 }
 
 @Composable
-fun ListView(
-    pokemons: Flow<PagingData<ListingScreenViewForm>>,
-    onClick: (ListingScreenViewForm) -> Unit
+private fun ListingScreenContent(
+    pagedForm: Flow<PagingData<ListingScreenViewForm>>,
+    onPokeSelected: (String) -> Unit,
+    onSearchRequested: (String) -> Unit
 ) {
-    val lazyPagingItems = pokemons.collectAsLazyPagingItems()
+    var searchText by remember { mutableStateOf("") }
+    Column {
+        SearchBoxView(
+            value = searchText,
+            onValueChange = {
+                searchText = it
+                onSearchRequested(searchText)
+            },
+            onSearch = {}
+        )
+        PagedGridView(
+            pagedPokemons = pagedForm,
+            onClick = onPokeSelected
+        )
+    }
+}
+
+@Composable
+private fun PagedGridView(
+    pagedPokemons: Flow<PagingData<ListingScreenViewForm>>,
+    onClick: (String) -> Unit
+) {
+    val lazyPagingItems = pagedPokemons.collectAsLazyPagingItems()
     val gridState = rememberLazyGridState()
 
     when (lazyPagingItems.loadState.refresh) {
@@ -77,24 +104,17 @@ fun ListView(
         }
 
         else -> {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(150.dp),
-                state = gridState,
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(
-                    count = lazyPagingItems.itemCount,
-                    key = lazyPagingItems.itemKey(),
-                    contentType = lazyPagingItems.itemContentType()
-                ) {
-                    val item = lazyPagingItems[it]
-                    if (item != null) {
-                        ListedItemView(item = item, onClick)
-                    }
+            PokeVerticalGridView<ListingScreenViewForm>(
+                gridState = gridState,
+                items = lazyPagingItems,
+                itemView = { item ->
+                    PokeItemView(
+                        pokeName = item.name,
+                        pokeImageUrl = item.imageUrl,
+                        onClick = onClick
+                    )
                 }
-
+            ) {
                 // Handle append state
                 when (lazyPagingItems.loadState.append) {
                     is LoadState.Loading -> {
@@ -114,43 +134,16 @@ fun ListView(
     }
 }
 
-@Composable
-fun ListedItemView(item: ListingScreenViewForm, onClick: (ListingScreenViewForm) -> Unit) {
-    val paddingModifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()
-
-    Card(
-        modifier = paddingModifier
-            .clickable(
-                role = Role.Button,
-                onClick = {
-                    onClick(item)
-                }
-            )
-    ) {
-        Column {
-            AsyncImage(
-                model = item.imageUrl,
-                //placeholder = painterResource(id = R.drawable.marvel_placeholder),
-                contentDescription = "${item.name} image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                contentScale = ContentScale.Fit
-            )
-            Text(
-                modifier = Modifier.padding(12.dp),
-                text = item.name
-            )
-        }
-    }
-}
-
 @Preview
 @Composable
 //preview doesn't accept parameters
-fun ColoredTextPreview() = ListedItemView(getExampleCharacter(), {})
+fun ColoredTextPreview() =
+    PokeItemView(
+        pokeName = getExampleCharacter().name,
+        pokeImageUrl = getExampleCharacter().imageUrl ?: "",
+        onClick = {}
+    )
+
 private fun getExampleCharacter() = ListingScreenViewForm(
     pokemonSingleInfo = PokemonListItemDomainModel(
         name = "name",
