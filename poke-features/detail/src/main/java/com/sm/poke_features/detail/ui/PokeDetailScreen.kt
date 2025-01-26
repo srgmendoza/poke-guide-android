@@ -36,9 +36,11 @@ import com.sm.poke_domain.models.PokeDetailDomainModel
 import com.sm.poke_domain.models.PokeTypeDomainModel
 
 @Composable
-fun PokemonDetailScreen(pokeName: String,
-                        onBackRequested: () -> Unit,
-                        viewModel: PokemonDetailScreenViewModel) {
+fun PokemonDetailScreen(
+    pokeName: String,
+    onBackRequested: () -> Unit,
+    viewModel: PokemonDetailScreenViewModel
+) {
 
     val viewState = viewModel.viewState.collectAsState()
 
@@ -69,7 +71,12 @@ private fun PokemonDetailScreenContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "${viewForm.name} details", style = MaterialTheme.typography.titleLarge) },
+                title = {
+                    Text(
+                        text = "${viewForm.name} details",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onGoBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")

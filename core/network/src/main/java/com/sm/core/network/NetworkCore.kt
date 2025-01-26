@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 interface NetworkCore {
-    fun <T>getCoreNetwork(baseUrl: String, endPoint: Class<T>): T
+    fun <T> getCoreNetwork(baseUrl: String, endPoint: Class<T>): T
 }
 
 internal class NetworkCoreImpl : NetworkCore {
@@ -19,7 +19,8 @@ internal class NetworkCoreImpl : NetworkCore {
 
     override fun <T> getCoreNetwork(
         baseUrl: String,
-        endPoint: Class<T>): T =
+        endPoint: Class<T>
+    ): T =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(getOkHttpClient())

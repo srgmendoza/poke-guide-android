@@ -9,9 +9,11 @@ sealed class State<T>(val message: String? = null, val data: T? = null) {
 
     class Success<T>(data: T? = null) : State<T>(data = data)
 
-    class Error<T>(message: String? = null, data: T? = null) : State<T>(message = message, data = data)
+    class Error<T>(message: String? = null, data: T? = null) :
+        State<T>(message = message, data = data)
 
-    class Empty<T>(message: String? = null, data: T? = null) : State<T>(message = message, data = data)
+    class Empty<T>(message: String? = null, data: T? = null) :
+        State<T>(message = message, data = data)
 }
 
 abstract class ViewState<T>(val state: State<T>) {

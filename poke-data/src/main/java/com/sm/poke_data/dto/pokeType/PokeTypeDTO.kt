@@ -9,6 +9,6 @@ data class PokeTypeDTO(
     val pokemonRefs: List<PokeWithTypeDto>,
 )
 
-data class PokeWithTypeDto (
+data class PokeWithTypeDto(
     val pokemon: PokemonRefDto
 )

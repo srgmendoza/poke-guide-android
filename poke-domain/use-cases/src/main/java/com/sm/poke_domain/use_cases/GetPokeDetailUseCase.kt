@@ -7,7 +7,8 @@ interface GetPokeDetailUseCase {
     suspend fun execute(name: String): Result<PokeDetailDomainModel>
 }
 
-internal class GetPokeDetailUseCaseImpl(private val repository: PokeItemListRepository): GetPokeDetailUseCase {
+internal class GetPokeDetailUseCaseImpl(private val repository: PokeItemListRepository) :
+    GetPokeDetailUseCase {
     override suspend fun execute(name: String): Result<PokeDetailDomainModel> {
         return repository.fetchPokeItemByName(name)
     }
