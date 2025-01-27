@@ -54,8 +54,9 @@ A simple project to show a list of Pokemons, show a brief detail, and search for
 
 ---
 
-## **Architecture**
-This project follows the **MVI (Model-View-Intent)** pattern.
+## **Architecture Diagram**
+![img_1.png](img_1.png)
+
 
 ### Module explanation:
 1. **:app**: Module where application is running by default.

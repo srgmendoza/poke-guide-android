@@ -1,6 +1,7 @@
 package com.sm.poke_data.di
 
 import com.sm.core.network.NetworkCore
+import com.sm.core.network.di.networkCoreModule
 import com.sm.poke_data.api.PokeApi
 import com.sm.poke_data.repository.PokeItemListRepository
 import com.sm.poke_data.repository.PokeItemListRepositoryImpl
@@ -10,7 +11,7 @@ import com.sm.poke_data.repository.PokeTypeRepository
 import com.sm.poke_data.repository.PokeTypeRepositoryImpl
 import org.koin.dsl.module
 
-val pokeDataModule = module {
+val pokeDataModule = networkCoreModule.plus(module {
     factory {
         getReferenceRepository(get())
     }
@@ -22,6 +23,7 @@ val pokeDataModule = module {
         getTypesRepository(get())
     }
 }
+)
 
 private fun getTypesRepository(networkCore: NetworkCore): PokeTypeRepository =
     PokeTypeRepositoryImpl(getPokeApi(networkCore))

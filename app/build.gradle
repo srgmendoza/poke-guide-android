@@ -54,7 +54,6 @@ dependencies {
 
     //Modules
     implementation project(':core:navigation')
-    implementation project(':core:network')
     implementation project(':core:ui')
 
     implementation project(':poke-data')
