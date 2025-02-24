@@ -5,10 +5,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-import androidx.tv.material3.Text
 import com.sm.core.navigation.Navigator
+import com.sm.poke_tv_features.listing.nav.addHomeTvFeatureNavGraph
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -31,20 +29,6 @@ fun TVNavigationComponent(
         navController = navController,
         startDestination = "mainTvFeatureDestination"
     ) {
-        navigation(
-            startDestination = "mainTvDestination",
-            route = "mainTvFeatureDestination"
-        ) {
-            composable(
-                route = "mainTvDestination"
-            ) {
-                TestScreen()
-            }
-        }
+        addHomeTvFeatureNavGraph { }
     }
-}
-
-@Composable
-private fun TestScreen() {
-    Text(text = "Test")
 }

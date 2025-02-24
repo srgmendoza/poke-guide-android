@@ -23,7 +23,7 @@ interface PokeApi {
     @GET(POKE_LIST_ENDPOINT)
     suspend fun getPokemonReferenceList(
         @Query("offset") offset: Int? = null,
-        @Query("itemsPerPage") limit: Int? = null
+        @Query("limit") limit: Int? = null
     ): PokeReferenceDTO
 
     @GET(POKE_DETAIL_ENDPOINT)

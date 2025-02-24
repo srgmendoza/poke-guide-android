@@ -13,7 +13,7 @@ fun MainPokeTvUI() {
     val navController = rememberNavController()
     val navigator = get<Navigator>()
 
-    PokeTheme {
+    PokeTheme(isDarkTheme = true) {
         TVNavigationComponent(
             navController = navController,
             navigator = navigator,

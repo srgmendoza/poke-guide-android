@@ -1,20 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-
 }
 
 android {
-    namespace 'com.sm.pokeguide.app_tv'
+    namespace 'com.sm.poke_tv_features.listing'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.sm.pokeguide.app_tv"
         minSdk 21
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -43,18 +40,17 @@ dependencies {
     implementation(libs.bundles.core)
     implementation(libs.bundles.coreTv)
     implementation(libs.bundles.composeTv)
-    implementation(libs.bundles.networking)
-    implementation(libs.bundles.di)
+
+    implementation(libs.bundles.di) // Koin for Dependency Injection
     implementation(libs.bundles.navigation)
+    implementation(libs.bundles.image)
+    implementation(libs.bundles.paging)
 
     debugImplementation(libs.androidx.ui.tooling.preview)
 
-    testImplementation(libs.bundles.test)
-    testImplementation(libs.bundles.composeTvTest)
-
-    implementation project(':poke-theme')
     implementation project(':core:navigation')
     implementation project(':core:ui')
-    implementation project(':poke-tv-features:home')
 
+    implementation project(':poke-domain:use-cases')
+    implementation project(':poke-domain:models')
 }

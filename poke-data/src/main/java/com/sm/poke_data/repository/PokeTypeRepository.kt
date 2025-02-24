@@ -7,14 +7,20 @@ import com.sm.poke_domain.models.PokeReferenceInfoDomainModel
 import com.sm.poke_domain.models.PokemonListByTypeDomainModel
 
 interface PokeTypeRepository {
-    suspend fun fetchPokeTypeById(typeId: String): Result<PokemonListByTypeDomainModel>
+    suspend fun fetchPokeTypeById(
+        typeId: String,
+        shouldTakeTop: Boolean = true
+    ): Result<PokemonListByTypeDomainModel>
 }
 
 internal class PokeTypeRepositoryImpl(private val pokeApi: PokeApi) : PokeTypeRepository {
-    override suspend fun fetchPokeTypeById(typeId: String): Result<PokemonListByTypeDomainModel> {
+    override suspend fun fetchPokeTypeById(
+        typeId: String,
+        shouldTakeTop: Boolean
+    ): Result<PokemonListByTypeDomainModel> {
         try {
             val content =
-                PokeTypeMapper().mapToDomainModel(pokeApi.getPokemonType(typeId = typeId))
+                PokeTypeMapper(shouldTakeTop).mapToDomainModel(pokeApi.getPokemonType(typeId = typeId))
             return Result.success(content)
         } catch (e: Exception) {
             return Result.failure(e)
@@ -22,15 +28,25 @@ internal class PokeTypeRepositoryImpl(private val pokeApi: PokeApi) : PokeTypeRe
     }
 }
 
-internal class PokeTypeMapper : PokeMapperBase<PokeTypeDTO, PokemonListByTypeDomainModel>() {
+internal class PokeTypeMapper(private val shouldTakeTop: Boolean) :
+    PokeMapperBase<PokeTypeDTO, PokemonListByTypeDomainModel>() {
     override fun mapToDomainModel(dto: PokeTypeDTO): PokemonListByTypeDomainModel {
         return PokemonListByTypeDomainModel(
             name = dto.name,
-            topRelatedPokemons = dto.pokemonRefs.drop(1).take(6).map {
-                PokeReferenceInfoDomainModel(
-                    name = it.pokemon.name,
-                    url = it.pokemon.url
-                )
+            topRelatedPokemons = if(shouldTakeTop) {
+                dto.pokemonRefs.drop(1).take(6).map {
+                    PokeReferenceInfoDomainModel(
+                        name = it.pokemon.name,
+                        url = it.pokemon.url
+                    )
+                }
+            } else {
+                dto.pokemonRefs.take(12).map {
+                    PokeReferenceInfoDomainModel(
+                        name = it.pokemon.name,
+                        url = it.pokemon.url
+                    )
+                }
             }
         )
     }
