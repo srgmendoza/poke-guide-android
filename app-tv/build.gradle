@@ -51,4 +51,8 @@ dependencies {
 
     testImplementation(libs.bundles.test)
     testImplementation(libs.bundles.composeTvTest)
+
+    implementation project(':poke-theme')
+    implementation project(':core:navigation')
+    implementation project(':core:ui')
 }
