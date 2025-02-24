@@ -1,0 +1,54 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+
+}
+
+android {
+    namespace 'com.sm.pokeguide.app_tv'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.sm.pokeguide.app_tv"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.14"
+    }
+}
+
+dependencies {
+
+    implementation(libs.bundles.core)
+    implementation(libs.bundles.coreTv)
+    implementation(libs.bundles.composeTv)
+    implementation(libs.bundles.networking)
+    implementation(libs.bundles.di)
+    implementation(libs.bundles.navigation)
+
+    debugImplementation(libs.androidx.ui.tooling.preview)
+
+    testImplementation(libs.bundles.test)
+    testImplementation(libs.bundles.composeTvTest)
+}

@@ -7,7 +7,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 androidxSplashScreen = "1.0.1"
 compose = "1.7.6"
-compose_compiler = "1.4.4"
+compose_compiler = "1.5.14"
 koinBom = "3.5.6"
 appcompat = "1.7.0"
 material = "1.12.0"
@@ -20,6 +20,12 @@ coil = "3.0.4"
 foundationLayoutAndroid = "1.7.6"
 paging = "3.3.5"
 foundationLayoutAndroidVersion = "1.7.2"
+
+composeBom = "2025.02.00"
+tvFoundation = "1.0.0-alpha07"
+tvMaterial = "1.0.0"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.8.2"
 
 [libraries]
 # Core Libraries
@@ -68,13 +74,39 @@ androidx-foundation-layout-android = { group = "androidx.compose.foundation", na
 # Paging
 paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroidVersion" }
+
+# TV
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "tvFoundation" }
+androidx-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tvMaterial" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 
 [bundles]
 core = [
     "androidx-core-ktx",
     "androidx-appcompat",
     "material"
+]
+
+coreTv = [
+    "androidx-lifecycle-runtime-ktx",
+]
+
+composeTv = [
+    "androidx-ui-graphics",
+    "androidx-tv-foundation",
+    "androidx-tv-material",
+    "androidx-activity-compose"
+]
+
+composeTvTest = [
+    "androidx-ui-test-junit4",
+    "androidx-ui-test-manifest"
 ]
 
 compose = [
@@ -128,3 +160,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 #kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
