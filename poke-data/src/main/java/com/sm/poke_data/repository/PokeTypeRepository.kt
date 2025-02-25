@@ -8,19 +8,17 @@ import com.sm.poke_domain.models.PokemonListByTypeDomainModel
 
 interface PokeTypeRepository {
     suspend fun fetchPokeTypeById(
-        typeId: String,
-        shouldTakeTop: Boolean = true
+        typeId: String
     ): Result<PokemonListByTypeDomainModel>
 }
 
 internal class PokeTypeRepositoryImpl(private val pokeApi: PokeApi) : PokeTypeRepository {
     override suspend fun fetchPokeTypeById(
-        typeId: String,
-        shouldTakeTop: Boolean
+        typeId: String
     ): Result<PokemonListByTypeDomainModel> {
         try {
             val content =
-                PokeTypeMapper(shouldTakeTop).mapToDomainModel(pokeApi.getPokemonType(typeId = typeId))
+                PokeTypeMapper().mapToDomainModel(pokeApi.getPokemonType(typeId = typeId))
             return Result.success(content)
         } catch (e: Exception) {
             return Result.failure(e)
@@ -28,25 +26,16 @@ internal class PokeTypeRepositoryImpl(private val pokeApi: PokeApi) : PokeTypeRe
     }
 }
 
-internal class PokeTypeMapper(private val shouldTakeTop: Boolean) :
+internal class PokeTypeMapper :
     PokeMapperBase<PokeTypeDTO, PokemonListByTypeDomainModel>() {
     override fun mapToDomainModel(dto: PokeTypeDTO): PokemonListByTypeDomainModel {
         return PokemonListByTypeDomainModel(
             name = dto.name,
-            topRelatedPokemons = if(shouldTakeTop) {
-                dto.pokemonRefs.drop(1).take(6).map {
-                    PokeReferenceInfoDomainModel(
-                        name = it.pokemon.name,
-                        url = it.pokemon.url
-                    )
-                }
-            } else {
-                dto.pokemonRefs.take(12).map {
-                    PokeReferenceInfoDomainModel(
-                        name = it.pokemon.name,
-                        url = it.pokemon.url
-                    )
-                }
+            topRelatedPokemons = dto.pokemonRefs.map {
+                PokeReferenceInfoDomainModel(
+                    name = it.pokemon.name,
+                    url = it.pokemon.url
+                )
             }
         )
     }

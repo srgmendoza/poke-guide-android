@@ -15,13 +15,13 @@ internal class GetPokeTypesUseCaseImpl(
     private val typeRange = 1..19
     override suspend fun execute(): Result<List<PokeTypesWithChildrenDomainModel>> {
         val result = typeRange.map { typeId ->
-            repo.fetchPokeTypeById(typeId = typeId.toString(), shouldTakeTop = false).mapCatching {
+            repo.fetchPokeTypeById(typeId = typeId.toString()).mapCatching {
                 PokeTypesWithChildrenDomainModel(
                     type = PokeTypeDomainModel(
                         name = it.name,
                         refId = it.name
                     ),
-                    children = it.topRelatedPokemons.map { poke ->
+                    children = it.topRelatedPokemons.take(12).map { poke ->
                         detailUseCase.execute(poke.name).getOrThrow()
                     }
                 )
