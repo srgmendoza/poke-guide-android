@@ -5,10 +5,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.sm.core.navigation.Navigator
-import com.sm.core.ui.commons.BaseViewModel
-import com.sm.core.ui.commons.State
-import com.sm.core.ui.commons.ViewState
-import com.sm.core.ui.commons.paging.ListingScreenPagingHandler
+import com.sm.core.commons.BaseViewModel
+import com.sm.core.commons.State
+import com.sm.core.commons.ViewState
+import com.sm.core.commons.paging.ListingScreenPagingHandler
 import com.sm.poke_domain.models.PokemonListItemDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

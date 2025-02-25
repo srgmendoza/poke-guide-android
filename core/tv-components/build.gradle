@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.sm.poke_theme'
+    namespace 'com.sm.core.tv_components'
     compileSdk 34
 
     defaultConfig {
@@ -27,21 +27,26 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion "1.5.14"
-    }
     buildFeatures {
         compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.14"
     }
 }
 
 dependencies {
 
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation(libs.bundles.compose)
+    implementation(libs.bundles.core)
+    implementation(libs.bundles.coreTv)
     implementation(libs.bundles.composeTv)
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
+
+    implementation(libs.bundles.di) // Koin for Dependency Injection
+    implementation(libs.bundles.navigation)
+    implementation(libs.bundles.image)
+    implementation(libs.bundles.paging)
+
+    debugImplementation(libs.androidx.ui.tooling.preview)
+
+    implementation project(':core:navigation')
 }

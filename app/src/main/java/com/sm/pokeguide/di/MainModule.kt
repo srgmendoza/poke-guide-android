@@ -1,7 +1,7 @@
 package com.sm.pokeguide.di
 
 import com.sm.core.navigation.di.navigationModule
-import com.sm.core.ui.di.pokeCoreUiModule
+import com.sm.core.di.pokeCoreUiModule
 import com.sm.poke_data.di.pokeDataModule
 import com.sm.poke_domain.di.pokeDomainModule
 import com.sm.poke_features.detail.di.pokeDetailFeatModule

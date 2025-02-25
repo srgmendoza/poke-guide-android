@@ -1,11 +1,12 @@
 package com.sm.poke_tv_features.listing.nav
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.sm.core.tv_components.NavigationDrawerContainer
 import com.sm.poke_tv_features.listing.ui.MainHomeScreen
-import com.sm.poke_tv_features.listing.ui.MainHomeScreenViewModel
-import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.addHomeTvFeatureNavGraph(popBackStack: () -> Unit) {
     navigation(
@@ -15,8 +16,11 @@ fun NavGraphBuilder.addHomeTvFeatureNavGraph(popBackStack: () -> Unit) {
         composable(
             route = "mainTvDestination"
         ) {
-            val viewModel = koinViewModel<MainHomeScreenViewModel>()
-            MainHomeScreen(viewModel = viewModel)
+            NavigationDrawerContainer(
+                currentRoute = "mainTvDestination",
+            ) {
+                MainHomeScreen(modifier = Modifier.fillMaxSize())
+            }
         }
     }
 }
