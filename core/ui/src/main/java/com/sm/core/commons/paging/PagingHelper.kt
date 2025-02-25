@@ -1,4 +1,4 @@
-package com.sm.core.ui.commons.paging
+package com.sm.core.commons.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

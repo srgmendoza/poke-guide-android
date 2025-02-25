@@ -1,4 +1,4 @@
-package com.sm.core.ui.commons
+package com.sm.core.commons
 
 import android.util.Log
 import androidx.compose.ui.Modifier

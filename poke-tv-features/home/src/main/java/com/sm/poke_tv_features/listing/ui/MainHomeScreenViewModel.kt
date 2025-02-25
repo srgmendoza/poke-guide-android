@@ -2,9 +2,9 @@ package com.sm.poke_tv_features.listing.ui
 
 import androidx.lifecycle.viewModelScope
 import com.sm.core.navigation.Navigator
-import com.sm.core.ui.commons.BaseViewModel
-import com.sm.core.ui.commons.State
-import com.sm.core.ui.commons.ViewState
+import com.sm.core.commons.BaseViewModel
+import com.sm.core.commons.State
+import com.sm.core.commons.ViewState
 import com.sm.poke_domain.models.PokeTypesWithChildrenDomainModel
 import com.sm.poke_domain.models.PokemonListItemDomainModel
 import com.sm.poke_domain.use_cases.GetOutstandingPokemonListUseCase

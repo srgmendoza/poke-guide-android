@@ -1,4 +1,4 @@
-package com.sm.core.ui.commons
+package com.sm.core.commons
 
 sealed class State<T>(val message: String? = null, val data: T? = null) {
     class Initial<T>(data: T? = null) : State<T>(data = data)
