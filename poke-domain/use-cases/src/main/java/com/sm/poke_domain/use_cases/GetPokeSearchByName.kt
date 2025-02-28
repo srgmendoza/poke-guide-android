@@ -19,7 +19,7 @@ internal class GetPokeSearchByNameImpl(
         val result = detailRepo.fetchPokeItemByName(name).mapCatching { poke ->
             poke.topType.refId?.let { typeId ->
                 typeRepository.fetchPokeTypeById(typeId).map { type ->
-                    type.topRelatedPokemons.map { relatedPoke ->
+                    type.topRelatedPokemons.drop(1).take(6).map { relatedPoke ->
                         detailRepo.fetchPokeItemByName(relatedPoke.name).fold(
                             onSuccess = { result ->
                                 relatedPokemons.add(result)

@@ -3,9 +3,9 @@ package com.sm.poke_features.search.ui
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.sm.core.navigation.Navigator
-import com.sm.core.ui.commons.BaseViewModel
-import com.sm.core.ui.commons.State
-import com.sm.core.ui.commons.ViewState
+import com.sm.core.commons.BaseViewModel
+import com.sm.core.commons.State
+import com.sm.core.commons.ViewState
 import com.sm.poke_domain.models.PokeDetailDomainModel
 import com.sm.poke_domain.use_cases.GetPokeSearchByName
 import kotlinx.coroutines.Job
@@ -16,7 +16,7 @@ import java.util.Locale
 
 class SearchScreenViewModel(
     private val useCaseByName: GetPokeSearchByName,
-    private val navigator: Navigator
+    navigator: Navigator
 ) :
     BaseViewModel<SearchScreenViewState>(navigator = navigator) {
 

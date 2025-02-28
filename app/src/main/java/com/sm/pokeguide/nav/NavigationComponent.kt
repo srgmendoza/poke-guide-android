@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.sm.core.navigation.NavDestination
+import com.sm.core.navigation.NavMobileDestination
 import com.sm.core.navigation.Navigator
 import com.sm.poke_features.detail.nav.addDetailFeatureNavGraph
 import com.sm.poke_features.listing.nav.addListingFeatureNavGraph
@@ -30,7 +30,7 @@ fun NavigationComponent(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = NavDestination.ListingFeature.label
+        startDestination = NavMobileDestination.ListingFeature.label
     ) {
         addListingFeatureNavGraph { navController.popBackStack() }
         addSearchFeatureNavGraph { navController.popBackStack() }

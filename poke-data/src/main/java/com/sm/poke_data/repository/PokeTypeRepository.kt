@@ -7,11 +7,15 @@ import com.sm.poke_domain.models.PokeReferenceInfoDomainModel
 import com.sm.poke_domain.models.PokemonListByTypeDomainModel
 
 interface PokeTypeRepository {
-    suspend fun fetchPokeTypeById(typeId: String): Result<PokemonListByTypeDomainModel>
+    suspend fun fetchPokeTypeById(
+        typeId: String
+    ): Result<PokemonListByTypeDomainModel>
 }
 
 internal class PokeTypeRepositoryImpl(private val pokeApi: PokeApi) : PokeTypeRepository {
-    override suspend fun fetchPokeTypeById(typeId: String): Result<PokemonListByTypeDomainModel> {
+    override suspend fun fetchPokeTypeById(
+        typeId: String
+    ): Result<PokemonListByTypeDomainModel> {
         try {
             val content =
                 PokeTypeMapper().mapToDomainModel(pokeApi.getPokemonType(typeId = typeId))
@@ -22,11 +26,12 @@ internal class PokeTypeRepositoryImpl(private val pokeApi: PokeApi) : PokeTypeRe
     }
 }
 
-internal class PokeTypeMapper : PokeMapperBase<PokeTypeDTO, PokemonListByTypeDomainModel>() {
+internal class PokeTypeMapper :
+    PokeMapperBase<PokeTypeDTO, PokemonListByTypeDomainModel>() {
     override fun mapToDomainModel(dto: PokeTypeDTO): PokemonListByTypeDomainModel {
         return PokemonListByTypeDomainModel(
             name = dto.name,
-            topRelatedPokemons = dto.pokemonRefs.drop(1).take(6).map {
+            topRelatedPokemons = dto.pokemonRefs.map {
                 PokeReferenceInfoDomainModel(
                     name = it.pokemon.name,
                     url = it.pokemon.url

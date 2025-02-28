@@ -41,7 +41,7 @@ A simple project to show a list of Pokemons, show a brief detail, and search for
 ### Prerequisites
 - Android Studio version **2022.2.1 (or above)**.
 - Gradle version **7.x**.
-- Minimum SDK level **24**.
+- Minimum SDK level **21**.
 
 ### Steps
 1. Clone the repository:

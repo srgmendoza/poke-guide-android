@@ -1,0 +1,57 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace 'com.sm.poke_tv_features.listing'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.14"
+    }
+}
+
+dependencies {
+
+    implementation(libs.bundles.core)
+    implementation(libs.bundles.coreTv)
+    implementation(libs.bundles.composeTv)
+
+    implementation(libs.bundles.di) // Koin for Dependency Injection
+    implementation(libs.bundles.navigation)
+    implementation(libs.bundles.image)
+    implementation(libs.bundles.paging)
+
+    debugImplementation(libs.androidx.ui.tooling.preview)
+
+    implementation project(':core:navigation')
+    implementation project(':core:ui')
+    implementation project(':core:tv-components')
+
+    implementation project(':poke-domain:use-cases')
+    implementation project(':poke-domain:models')
+}

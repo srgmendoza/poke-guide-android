@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.PokeGuide" parent="Theme.AppCompat.DayNight.NoActionBar" />
+</resources>
