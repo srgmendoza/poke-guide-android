@@ -66,7 +66,7 @@ data class SearchScreenViewForm(
     private val pokemonSingleInfo: PokeDetailDomainModel? = null,
     val searchValue: String = ""
 ) {
-    val pokemonName get() = pokemonSingleInfo?.name ?: ""
+    val pokemonSearchResult get() = pokemonSingleInfo
 }
 
 sealed class SearchScreenViewState(

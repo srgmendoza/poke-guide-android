@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.sm.core.navigation.NavTVDestination
 import com.sm.core.navigation.Navigator
+import com.sm.poke_tv_features.detail.nav.addDetailTvFeatureNavGraph
 import com.sm.poke_tv_features.listing.nav.addHomeTvFeatureNavGraph
 import com.sm.poke_tv_features.search.nav.addSearchTvFeatureNavGraph
 import kotlinx.coroutines.flow.launchIn
@@ -33,5 +34,6 @@ fun TVNavigationComponent(
     ) {
         addHomeTvFeatureNavGraph { }
         addSearchTvFeatureNavGraph { }
+        addDetailTvFeatureNavGraph { navController.popBackStack() }
     }
 }

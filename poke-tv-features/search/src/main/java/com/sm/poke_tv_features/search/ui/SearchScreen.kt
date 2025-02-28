@@ -29,9 +29,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Text
+import com.sm.core.navigation.NavTVDestination
+import com.sm.poke_tv_features.search.ui.components.SearchResultsContent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,7 +62,9 @@ fun SearchScreen(
         form = viewState.value.form,
         searchFieldValue = textFieldValue,
         onKeywordInput = onSearchAction
-    )
+    ) {
+        viewModel.goTo(NavTVDestination.DetailFeature.DetailScreenWithId(it))
+    }
 }
 
 @Composable
@@ -68,7 +72,8 @@ private fun SearchScreenContent(
     modifier: Modifier = Modifier,
     form: SearchScreenViewForm? = null,
     searchFieldValue: String = "",
-    onKeywordInput: (String) -> Unit = {}
+    onKeywordInput: (String) -> Unit = {},
+    onItemClicked: (String) -> Unit
 ) {
     val (focusRequester) = remember {
         FocusRequester.createRefs()
@@ -81,7 +86,8 @@ private fun SearchScreenContent(
         modifier = modifier.focusRequester(focusRequester),
         onKeywordInput = onKeywordInput,
         searchFieldValue = searchFieldValue,
-        form = form
+        form = form,
+        onItemClicked = onItemClicked
     )
 }
 
@@ -91,7 +97,8 @@ private fun Content(
     state: LazyListState = rememberLazyListState(),
     form: SearchScreenViewForm? = null,
     searchFieldValue: String = "",
-    onKeywordInput: (String) -> Unit = {}
+    onKeywordInput: (String) -> Unit = {},
+    onItemClicked: (String) -> Unit
 ) {
     Column {
         KeywordInput(
@@ -106,8 +113,11 @@ private fun Content(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
-                Box {
-                    form?.pokemonName?.let { Text(text = it) }
+                form?.pokemonSearchResult?.let {
+                    SearchResultsContent(
+                        domainModel = it,
+                        onItemClicked = onItemClicked
+                    )
                 }
             }
         }

@@ -100,7 +100,6 @@ private fun PokemonDetailScreenContent(
             ) {
                 AsyncImage(
                     model = viewForm.imageUrl,
-                    //placeholder = painterResource(id = R.drawable.marvel_placeholder),
                     contentDescription = "${viewForm.name} image",
                     modifier = Modifier
                         .fillMaxWidth()

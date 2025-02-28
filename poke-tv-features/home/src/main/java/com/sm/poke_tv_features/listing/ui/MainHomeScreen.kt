@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +42,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Text
 import androidx.tv.material3.rememberCarouselState
 import coil3.compose.AsyncImage
+import com.sm.core.navigation.NavTVDestination
 import com.sm.core.ui.components.PokeItemView
 import com.sm.poke_domain.models.PokeTypesWithChildrenDomainModel
 import com.sm.poke_domain.models.PokemonListItemDomainModel
@@ -62,7 +65,9 @@ fun MainHomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .then(modifier)
-            )
+            ) {
+                viewModel.goTo(NavTVDestination.DetailFeature.DetailScreenWithId(it))
+            }
         }
     }
 }
@@ -73,6 +78,7 @@ private fun MainHomeScreenContent(
     modifier: Modifier = Modifier,
     pokemons: List<PokemonListItemDomainModel> = emptyList(),
     ribbons: List<PokeTypesWithChildrenDomainModel> = emptyList(),
+    onItemClicked: (String) -> Unit = {}
 ) {
 
     val (focusRequester) = remember {
@@ -85,7 +91,8 @@ private fun MainHomeScreenContent(
     Content(
         modifier = modifier.focusRequester(focusRequester),
         pokemons = pokemons,
-        ribbons = ribbons
+        ribbons = ribbons,
+        onItemClicked = onItemClicked
     )
 
 }
@@ -97,7 +104,8 @@ private fun Content(
     pokemons: List<PokemonListItemDomainModel> = emptyList(),
     ribbons: List<PokeTypesWithChildrenDomainModel> = emptyList(),
     state: LazyListState = rememberLazyListState(),
-    carouselState: CarouselState = rememberCarouselState()
+    carouselState: CarouselState = rememberCarouselState(),
+    onItemClicked: (String) -> Unit = {}
 ) {
 
     LazyColumn(
@@ -149,14 +157,16 @@ private fun Content(
                 )
             ) { index ->
                 CarouselItem(
-                    pokemon = pokemons[index]
+                    pokemon = pokemons[index],
+                    onItemClicked = onItemClicked
                 )
             }
         }
         if (ribbons.isNotEmpty()) {
             items(ribbons.size) { index ->
                 PokemonCategory(
-                    type = ribbons[index]
+                    type = ribbons[index],
+                    onItemClicked = onItemClicked
                 )
             }
         }
@@ -164,12 +174,18 @@ private fun Content(
 }
 
 @Composable
-private fun CarouselItem(pokemon: PokemonListItemDomainModel) {
+private fun CarouselItem(pokemon: PokemonListItemDomainModel, onItemClicked: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .background(Color.Black.copy(alpha = 0.4f))
+            .clickable(
+                role = Role.Button,
+                onClick = {
+                    onItemClicked(pokemon.name)
+                }
+            )
     ) {
         AsyncImage(
             model = pokemon.imageUrl,
@@ -191,7 +207,7 @@ private fun CarouselItem(pokemon: PokemonListItemDomainModel) {
 }
 
 @Composable
-fun PokemonCategory(type: PokeTypesWithChildrenDomainModel) {
+fun PokemonCategory(type: PokeTypesWithChildrenDomainModel, onItemClicked: (String) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -211,7 +227,7 @@ fun PokemonCategory(type: PokeTypesWithChildrenDomainModel) {
                     pokeName = type.children[pokemon].name,
                     pokeImageUrl = type.children[pokemon].imageUrl,
                     contentScale = ContentScale.Inside
-                ) { }
+                ) { onItemClicked(type.children[pokemon].name) }
             }
         }
     }

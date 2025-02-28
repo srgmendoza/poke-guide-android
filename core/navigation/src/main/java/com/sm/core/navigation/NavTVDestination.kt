@@ -8,8 +8,10 @@ sealed class NavTVDestination(override val label: String): NavDestination {
     object SearchFeature : NavTVDestination(label = TVModuleRoutes.SEARCH_FEATURE.label)
     object SearchScreen : NavTVDestination(label = TVModuleRoutes.SEARCH_SCREEN.label)
 
-    object DetailFeature : NavTVDestination(label = TVModuleRoutes.DETAIL_FEATURE.label)
-    object DetailScreen : NavTVDestination(label = TVModuleRoutes.DETAIL_SCREEN.label)
+    sealed class DetailFeature {
+        data class DetailScreenWithId(val id: String) :
+            NavTVDestination("${TVModuleRoutes.DETAIL_SCREEN.label}/$id")
+    }
 }
 
 enum class TVModuleRoutes(val label: String) {
