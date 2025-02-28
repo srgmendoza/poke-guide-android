@@ -23,6 +23,10 @@ import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.NavigationDrawerItem
 import androidx.tv.material3.NavigationDrawerScope
 import androidx.tv.material3.Text
+import com.sm.core.navigation.NavDestination
+import com.sm.core.navigation.NavTVDestination
+import com.sm.core.navigation.Navigator
+import org.koin.androidx.compose.get
 
 @Composable
 fun NavigationDrawerContainer(
@@ -30,10 +34,12 @@ fun NavigationDrawerContainer(
     currentRoute: String,
     content: @Composable () -> Unit
 ) {
+    val navigator = get<Navigator>()
+
     NavigationDrawer(
         drawerContent = {
             val isClosed = it == DrawerValue.Closed
-            DrawerMenu(currentRoute, isClosed)
+            DrawerMenu(navigator,currentRoute, isClosed)
         },
         modifier = modifier,
     ) {
@@ -44,6 +50,7 @@ fun NavigationDrawerContainer(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun NavigationDrawerScope.DrawerMenu(
+    navigator: Navigator,
     currentRoute: String,
     isClosed: Boolean
 ) {
@@ -54,7 +61,8 @@ private fun NavigationDrawerScope.DrawerMenu(
             .focusProperties {
                 enter = {
                     when (currentRoute) {
-                        "mainTvDestination" -> home
+                        NavTVDestination.SearchScreen.label -> search
+                        NavTVDestination.HomeScreen.label -> home
                         else -> FocusRequester.Default
                     }
                 }
@@ -64,9 +72,10 @@ private fun NavigationDrawerScope.DrawerMenu(
     ) {
         Spacer(modifier = Modifier.weight(1f))
         NavigationDrawerItem(
-            selected = isClosed && currentRoute == "mainTvDestination",
+            selected = isClosed && currentRoute == NavTVDestination.SearchScreen.label,
             onClick = {
                 Log.d("TAG", "Search clicked")
+                navigator.navigateTo(NavTVDestination.SearchScreen)
             },
             leadingContent = {
                 Icon(
@@ -79,9 +88,10 @@ private fun NavigationDrawerScope.DrawerMenu(
             Text(text = "Search")
         }
         NavigationDrawerItem(
-            selected = isClosed && currentRoute == "mainTvDestination",
+            selected = isClosed && currentRoute == NavTVDestination.HomeScreen.label,
             onClick = {
                 Log.d("TAG", "Home clicked")
+                navigator.navigateTo(NavTVDestination.HomeScreen)
             },
             leadingContent = {
                 Icon(

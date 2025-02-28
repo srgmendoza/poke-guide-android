@@ -5,8 +5,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.sm.core.navigation.NavTVDestination
 import com.sm.core.navigation.Navigator
 import com.sm.poke_tv_features.listing.nav.addHomeTvFeatureNavGraph
+import com.sm.poke_tv_features.search.nav.addSearchTvFeatureNavGraph
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -27,8 +29,9 @@ fun TVNavigationComponent(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = "mainTvFeatureDestination"
+        startDestination = NavTVDestination.HomeFeature.label
     ) {
         addHomeTvFeatureNavGraph { }
+        addSearchTvFeatureNavGraph { }
     }
 }

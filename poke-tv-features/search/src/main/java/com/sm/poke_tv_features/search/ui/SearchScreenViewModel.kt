@@ -1,24 +1,22 @@
-package com.sm.poke_features.search.ui
+package com.sm.poke_tv_features.search.ui
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.sm.core.navigation.Navigator
 import com.sm.core.commons.BaseViewModel
 import com.sm.core.commons.State
 import com.sm.core.commons.ViewState
+import com.sm.core.navigation.Navigator
 import com.sm.poke_domain.models.PokeDetailDomainModel
 import com.sm.poke_domain.use_cases.GetPokeSearchByName
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class SearchScreenViewModel(
-    private val useCaseByName: GetPokeSearchByName,
-    navigator: Navigator
-) :
-    BaseViewModel<SearchScreenViewState>(navigator = navigator) {
+    navigator: Navigator,
+    private val useCaseByName: GetPokeSearchByName
+) : BaseViewModel<SearchScreenViewState>(navigator = navigator) {
 
     override val _viewState: MutableStateFlow<SearchScreenViewState> =
         MutableStateFlow(SearchScreenViewState.Initial)
@@ -61,13 +59,14 @@ class SearchScreenViewModel(
     private fun cancelJob() {
         searchJob?.cancel()
     }
+
 }
 
 data class SearchScreenViewForm(
-    private val locale: Locale? = null,
-    val pokemonSingleInfo: PokeDetailDomainModel? = null
+    private val pokemonSingleInfo: PokeDetailDomainModel? = null,
+    val searchValue: String = ""
 ) {
-
+    val pokemonName get() = pokemonSingleInfo?.name ?: ""
 }
 
 sealed class SearchScreenViewState(

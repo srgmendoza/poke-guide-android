@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.sm.core.navigation.NavDestination
+import com.sm.core.navigation.NavMobileDestination
 import com.sm.core.ui.components.PokeItemView
 import com.sm.core.ui.components.PokeLoaderView
 import com.sm.core.ui.components.PokeVerticalGridView
@@ -48,10 +48,10 @@ fun ListingScreen(viewModel: ListingScreenViewModel) {
             ListingScreenContent(
                 pagedForm = viewState.value.form,
                 onPokeSelected = { pokemonName ->
-                    viewModel.goTo(NavDestination.DetailFeature.PokeDetailScreen(pokemonName))
+                    viewModel.goTo(NavMobileDestination.DetailFeature.PokeDetailScreen(pokemonName))
                 },
                 onSearchRequested = {
-                    viewModel.goTo(NavDestination.SearchFeature.SearchScreenWithText(it))
+                    viewModel.goTo(NavMobileDestination.SearchFeature.SearchScreenWithText(it))
                 }
             )
         }

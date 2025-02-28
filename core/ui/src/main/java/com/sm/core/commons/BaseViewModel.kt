@@ -2,7 +2,7 @@ package com.sm.core.commons
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.sm.core.navigation.NavDestination
+import com.sm.core.navigation.NavMobileDestination
 import com.sm.core.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +25,7 @@ abstract class BaseViewModel<STATE>(private val navigator: Navigator) :
 
     val viewState: StateFlow<STATE> get() = _viewState
 
-    override fun goTo(destination: NavDestination) {
+    override fun goTo(destination: NavMobileDestination) {
         super.goTo(destination)
         navigator.navigateTo(destination)
     }

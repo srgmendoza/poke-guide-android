@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.sm.core.navigation.NavDestination
+import com.sm.core.navigation.NavMobileDestination
 import com.sm.core.ui.components.PokeItemView
 import com.sm.core.ui.components.PokeLoaderView
 import com.sm.poke_features.search.ui.components.SearchBoxView
@@ -65,7 +65,7 @@ fun SearchScreen(initialText: String, viewModel: SearchScreenViewModel) {
                     viewModel.clearState()
                 },
                 onItemClicked = {
-                    viewModel.goTo(NavDestination.DetailFeature.PokeDetailScreen(it))
+                    viewModel.goTo(NavMobileDestination.DetailFeature.PokeDetailScreen(it))
                 }
             )
         }
